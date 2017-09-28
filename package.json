@@ -1,0 +1,23 @@
+{
+  "name": "google-trends-data-collection",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umpox/google-trends-data-collection.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/umpox/google-trends-data-collection/issues"
+  },
+  "homepage": "https://github.com/umpox/google-trends-data-collection#readme",
+  "dependencies": {
+    "browserify": "^14.4.0",
+    "google-trends-api": "^4.2.2"
+  }
+}
