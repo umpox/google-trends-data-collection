@@ -1,4 +1,4 @@
-const googleTrends = require('google-trends-api');
+const googleTrends = require('./google-trends-api.min.js');
 
 
 /* ******************* Related queries **************************/
