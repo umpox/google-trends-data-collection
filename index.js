@@ -7,6 +7,7 @@ const dateMsg = aWeekAgo.getFullYear() + '-' + (aWeekAgo.getMonth()+1) + '-' + a
 googleTrends.relatedQueries({
   keyword: ' ',
   startTime: new Date(dateMsg),
+  geo: 'GB',
   category: 0
 })
 .then((res) => {
