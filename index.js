@@ -3,30 +3,30 @@ const fs = require('fs');
 
 const categories = {
   ArtsEntertainment: 3,
-  // AutosVehicles: 47,
-  // BeautyFitness: 44,
-  // BooksLiterature: 22,
-  // BusinessIndustrial: 12,
-  // ComputersElectronics: 5,
-  // Finance: 7,
-  // FoodDrink: 71,
-  // Games: 8,
-  // Health: 45,
-  // HobbiesLeisure: 65,
-  // HomeGarden: 11,
-  // InternetTelecom: 13,
-  // JobsEducation: 958,
-  // LawGovernment: 19,
-  // News: 16,
-  // OnlineCommunities: 299,
-  // PeopleSociety: 14,
-  // PetsAnimals: 66,
-  // RealEstate: 29,
-  // Reference: 533,
-  // Science: 174,
-  // Shopping: 18,
-  // Sports: 20,
-  // Travel: 67
+  AutosVehicles: 47,
+  BeautyFitness: 44,
+  BooksLiterature: 22,
+  BusinessIndustrial: 12,
+  ComputersElectronics: 5,
+  Finance: 7,
+  FoodDrink: 71,
+  Games: 8,
+  Health: 45,
+  HobbiesLeisure: 65,
+  HomeGarden: 11,
+  InternetTelecom: 13,
+  JobsEducation: 958,
+  LawGovernment: 19,
+  News: 16,
+  OnlineCommunities: 299,
+  PeopleSociety: 14,
+  PetsAnimals: 66,
+  RealEstate: 29,
+  Reference: 533,
+  Science: 174,
+  Shopping: 18,
+  Sports: 20,
+  Travel: 67
 };
 
 function daysAgo(days) {
@@ -40,13 +40,13 @@ function findQuery(data, type, value) {
   return data[type] === value;
 }
 
-function removeDuplicates(data, compareObj) {
-  for (key in compareObj) {
+function removeDuplicates(data, compareObj) {  
+  for (key in compareObj) {    
     //Search original object for duplicates
     let duplicateFound = findDuplicate(data, compareObj[key].query)
 
     if (duplicateFound[0]) {
-      delete data[duplicateFound[0].key];
+      data.splice(duplicateFound[0].index);
     }
   }
 }
@@ -121,19 +121,21 @@ async function main() {
 }
 
 (async code => {
-  //Get previous dates data
-  let oldSearches = [];
-  oldSearches = fs.readFileSync('data.json','utf8');
-
+  // TODO: USE THIS CODE TO GET YESTERDAYS DATA TO COMPARE
+  // Get previous dates data
+  // let oldSearches = [];
+  // oldSearches = fs.readFileSync('data.json','utf8');
+  // oldSearches = JSON.parse(oldSearches);
+  
   //Get todays data
   risingSearches = await main();
   risingSearches = sortByRising(risingSearches);
 
-  //Remove duplicates between previous date and today
-  removeDuplicates(risingSearches, oldSearches);
+  // TODO: USE THIS CODE TO REMOVE DUPLICATES BETWEEN YESTERDAYS AND TODAYS DATA
+  // Remove duplicates between previous date and today
+  // removeDuplicates(risingSearches, oldSearches);
 
-
-  fs.writeFile('data.json', JSON.stringify(risingSearches), () => {  
+  fs.writeFile('data.json', JSON.stringify(risingSearches), 'utf8',  () => {  
     // success case, the file was saved
     console.log('Data saved!');
   });
