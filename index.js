@@ -138,6 +138,3 @@ async function main() {
     console.log('Data saved!');
   });
 })();
-
-
-// TODO FOR SOME REASON THE KEYS AREN'T UPDATING?
