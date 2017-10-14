@@ -33,7 +33,7 @@ function daysAgo(days) {
   const previousDate = new Date();
   previousDate.setDate(previousDate.getDate() - days);
   const dateMsg = previousDate.getFullYear() + '-' + (previousDate.getMonth()+1) + '-' + previousDate.getDate();
-  return new Date(dateMsg);
+  return dateMsg;
 };
 
 function findQuery(data, type, value) {
@@ -63,7 +63,6 @@ function sortByRising(data) {
 
 async function getTrends(
   keyword = ' ',
-  days = 7,
   category = 0
 ) {
   let queryRes;
@@ -71,7 +70,7 @@ async function getTrends(
     //Call Google Trends API
     queryRes = await googleTrends.relatedQueries({
       keyword: keyword,
-      startTime: daysAgo(days),
+      startTime: new Date(daysAgo(2)),
       geo: 'GB',
       category: category
     })
@@ -93,7 +92,7 @@ async function main() {
     console.log(`trying to get data for ${cat}`);
 
     //Query Google API for data
-    data = await getTrends(' ', 2, categories[cat]);
+    data = await getTrends(' ', categories[cat]);
     
     //Focus data on only rising searches
     data = data.default.rankedList[1].rankedKeyword      
@@ -109,7 +108,8 @@ async function main() {
         index,
         query,
         change,
-        formattedChange
+        formattedChange,
+        category: cat
       });
     });
 
@@ -124,7 +124,7 @@ async function main() {
   // TODO: USE THIS CODE TO GET YESTERDAYS DATA TO COMPARE
   // Get previous dates data
   // let oldSearches = [];
-  // oldSearches = fs.readFileSync('data.json','utf8');
+  // oldSearches = fs.readFileSync(`${daysAgo(3)}.json`,'utf8');
   // oldSearches = JSON.parse(oldSearches);
   
   //Get todays data
@@ -135,7 +135,7 @@ async function main() {
   // Remove duplicates between previous date and today
   // removeDuplicates(risingSearches, oldSearches);
 
-  fs.writeFile('data.json', JSON.stringify(risingSearches), 'utf8',  () => {  
+  fs.writeFile(`${daysAgo(2)}.json`, JSON.stringify(risingSearches), 'utf8',  () => {  
     // success case, the file was saved
     console.log('Data saved!');
   });
