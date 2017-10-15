@@ -136,3 +136,11 @@ async function main() {
     console.log('No data available yet')
   }
 })();
+
+/* 
+  TODO: Think about following scenario:
+  Yesterday data has a change of +100
+  Todays data has a change of +500
+  it will be removed because it's a duplicate, should I model the increase in change?
+  Perhaps over a certain %?
+*/
