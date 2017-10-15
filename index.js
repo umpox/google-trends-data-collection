@@ -36,24 +36,20 @@ function daysAgo(days) {
   return dateMsg;
 };
 
-function findQuery(data, type, value) {
-  return data[type] === value;
-}
-
 function removeDuplicates(data, compareObj) {  
   for (key in compareObj) {    
-    //Search original object for duplicates
-    let duplicateFound = findDuplicate(data, compareObj[key].query)
+    let duplicateIndex = data.findIndex(
+      (data) => findDuplicateIndex(data, compareObj[key].query)
+    );
 
-    if (duplicateFound[0]) {
-      data.splice(duplicateFound[0].index);
+    if (duplicateIndex > -1) {
+      data.splice(duplicateIndex, 1);
     }
   }
 }
 
-function findDuplicate(data, value) {
-  //Find duplicate in other object
-  return data.filter(data => (data.query === value));  
+function findDuplicateIndex(data, value) {
+  return data.query === value;
 }
 
 function sortByRising(data) {
@@ -73,7 +69,7 @@ async function getTrends(
       startTime: new Date(daysAgo(2)),
       geo: 'GB',
       category: category
-    })
+    });
 
     //Parse in JSON to use as object
     queryRes = JSON.parse(queryRes);
@@ -102,10 +98,8 @@ async function main() {
       let query = value.query;
       let change = value.value;
       let formattedChange = value.formattedValue;
-      index = Object.keys(overallData).length + index;
 
       overallData.push({
-        index,
         query,
         change,
         formattedChange,
@@ -121,22 +115,24 @@ async function main() {
 }
 
 (async code => {
-  // TODO: USE THIS CODE TO GET YESTERDAYS DATA TO COMPARE
   // Get previous dates data
-  // let oldSearches = [];
-  // oldSearches = fs.readFileSync(`${daysAgo(3)}.json`,'utf8');
-  // oldSearches = JSON.parse(oldSearches);
+  let oldSearches = [];
+  oldSearches = fs.readFileSync(`${daysAgo(3)}.json`,'utf8');
+  oldSearches = JSON.parse(oldSearches);
   
   //Get todays data
   risingSearches = await main();
   risingSearches = sortByRising(risingSearches);
 
-  // TODO: USE THIS CODE TO REMOVE DUPLICATES BETWEEN YESTERDAYS AND TODAYS DATA
   // Remove duplicates between previous date and today
-  // removeDuplicates(risingSearches, oldSearches);
+  removeDuplicates(risingSearches, oldSearches);
 
-  fs.writeFile(`${daysAgo(2)}.json`, JSON.stringify(risingSearches), 'utf8',  () => {  
-    // success case, the file was saved
-    console.log('Data saved!');
-  });
+  if (risingSearches[0]) {
+    fs.writeFile(`${daysAgo(2)}.json`, JSON.stringify(risingSearches), 'utf8',  () => {  
+      // success case, the file was saved
+      console.log('Data saved!');
+    });
+  } else {
+    console.log('No data available yet')
+  }
 })();
