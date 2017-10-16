@@ -66,7 +66,7 @@ async function getTrends(
     //Call Google Trends API
     queryRes = await googleTrends.relatedQueries({
       keyword: keyword,
-      startTime: new Date(daysAgo(2)),
+      startTime: new Date(daysAgo(3)),
       geo: 'GB',
       category: category
     });
@@ -121,7 +121,7 @@ async function main() {
     oldSearches = fs.readFileSync(`${daysAgo(3)}.json`,'utf8');
     oldSearches = JSON.parse(oldSearches);
   } catch (e) {
-    console.log(e);
+    console.log('Previous data not found');
   }
 
   
@@ -135,7 +135,7 @@ async function main() {
   }
   
   if (risingSearches[0]) {
-    fs.writeFile(`${daysAgo(2)}.json`, JSON.stringify(risingSearches), 'utf8',  () => {  
+    fs.writeFile(`${daysAgo(3)}.json`, JSON.stringify(risingSearches), 'utf8',  () => {  
       // success case, the file was saved
       console.log('Data saved!');
     });
