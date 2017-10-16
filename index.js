@@ -117,16 +117,23 @@ async function main() {
 (async code => {
   // Get previous dates data
   let oldSearches = [];
-  oldSearches = fs.readFileSync(`${daysAgo(3)}.json`,'utf8');
-  oldSearches = JSON.parse(oldSearches);
+  try {
+    oldSearches = fs.readFileSync(`${daysAgo(3)}.json`,'utf8');
+    oldSearches = JSON.parse(oldSearches);
+  } catch (e) {
+    console.log(e);
+  }
+
   
   //Get todays data
   risingSearches = await main();
   risingSearches = sortByRising(risingSearches);
 
-  // Remove duplicates between previous date and today
-  removeDuplicates(risingSearches, oldSearches);
-
+  if (oldSearches[0]) {
+    // Remove duplicates between previous date and today
+    removeDuplicates(risingSearches, oldSearches);
+  }
+  
   if (risingSearches[0]) {
     fs.writeFile(`${daysAgo(2)}.json`, JSON.stringify(risingSearches), 'utf8',  () => {  
       // success case, the file was saved
