@@ -151,3 +151,25 @@ async function main() {
   it will be removed because it's a duplicate, should I model the increase in change?
   Perhaps over a certain %?
 */
+
+/* LOGIC TO PUT ON PAGE */
+var cool = require('cool-ascii-faces');
+var express = require('express');
+var pg = require('pg');
+var app = express();
+
+app.set('port', (process.env.PORT || 5000));
+
+app.use(express.static(__dirname + '/public'));
+
+app.get('/', function(request, response) {
+  response.render('/index')
+});
+
+app.get('/cool', function(request, response) {
+  response.send(cool());
+});
+
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
