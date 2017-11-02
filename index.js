@@ -118,7 +118,7 @@ async function main() {
   // Get previous dates data
   let oldSearches = [];
   try {
-    oldSearches = fs.readFileSync(`${daysAgo(3)}.json`,'utf8');
+    oldSearches = fs.readFileSync(`data/${daysAgo(3)}.json`,'utf8');
     oldSearches = JSON.parse(oldSearches);
   } catch (e) {
     console.log('Previous data not found');
@@ -135,7 +135,7 @@ async function main() {
   }
   
   if (risingSearches[0]) {
-    fs.writeFile(`${daysAgo(2)}.json`, JSON.stringify(risingSearches), 'utf8',  () => {  
+    fs.writeFile(`data/${daysAgo(2)}.json`, JSON.stringify(risingSearches), 'utf8',  () => {  
       // success case, the file was saved
       console.log('Data saved!');
     });
