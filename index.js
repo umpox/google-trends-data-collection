@@ -1,6 +1,14 @@
 const googleTrends = require('./google-trends-api.min.js');
 const fs = require('fs');
 
+/* HEROKU EXPRESS IMPORTS */
+var cool = require('cool-ascii-faces');
+var express = require('express');
+var pg = require('pg');
+var app = express();
+
+let completedSearches;
+
 const categories = {
   ArtsEntertainment: 3,
   AutosVehicles: 47,
@@ -138,6 +146,9 @@ async function main() {
     fs.writeFile(`data/${daysAgo(2)}.json`, JSON.stringify(risingSearches), 'utf8',  () => {  
       // success case, the file was saved
       console.log('Data saved!');
+
+      //Save the data to be displayed on webpage
+      completedSearches = JSON.stringify(risingSearches);
     });
   } else {
     console.log('No data available yet')
@@ -152,16 +163,11 @@ async function main() {
   Perhaps over a certain %?
 */
 
-/* LOGIC TO PUT ON PAGE */
-var cool = require('cool-ascii-faces');
-var express = require('express');
-var pg = require('pg');
-var app = express();
-
 app.set('port', (process.env.PORT || 5000));
 
 app.get('/cool', function(request, response) {
-  response.send(cool());
+  response.send(`<h1>Data from: ${new Date()} :</h1>
+  ${completedSearches}`);
 });
 
 app.listen(app.get('port'), function() {
