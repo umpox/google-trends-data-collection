@@ -174,8 +174,7 @@ app.get('/data', function(request, response) {
   if (completedSearches === undefined) {
     completedSearches = 'No data available yet...';
   }
-  response.send(`<h1>Data from: ${new Date()} :</h1>
-  ${completedSearches}`);
+  response.send(`${completedSearches}`);
 });
 
 app.listen(app.get('port'), function() {
