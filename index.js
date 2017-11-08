@@ -153,7 +153,7 @@ async function main() {
       console.log('Data saved!');
 
       //Save the data to be displayed on webpage
-      completedSearches = JSON.stringify(risingSearches);
+      completedSearches = JSON.stringify(risingSearches)[0];
     });
   } else {
     console.log('No data available yet')
