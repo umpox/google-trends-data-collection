@@ -170,7 +170,7 @@ async function main() {
 
 app.set('port', (process.env.PORT || 5000));
 
-app.get('/data', function(request, response) {
+app.get('/data.json', function(request, response) {
   if (completedSearches === undefined) {
     completedSearches = 'No data available yet...';
   }
