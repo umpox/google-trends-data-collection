@@ -174,6 +174,7 @@ app.get('/data', function(request, response) {
   if (completedSearches === undefined) {
     completedSearches = 'No data available yet...';
   }
+  response.setHeader('Content-Type', 'application/json');  
   response.send(`${completedSearches}`);
 });
 
