@@ -65,6 +65,12 @@ function sortByRising(data) {
   return data.sort((obj1, obj2) => obj2.change - obj1.change);
 }
 
+function getStoredData(day) {
+  let oldSearches = fs.readFileSync(`data/${daysAgo(day)}.json`,'utf8');
+  oldSearches = JSON.parse(oldSearches);
+  return oldSearches;
+}
+
 async function getTrends(
   keyword = ' ',
   category = 0
@@ -126,8 +132,7 @@ async function main() {
   // Get previous dates data
   let oldSearches = [];
   try {
-    oldSearches = fs.readFileSync(`data/${daysAgo(3)}.json`,'utf8');
-    oldSearches = JSON.parse(oldSearches);
+    oldSearches = getStoredData(3);
   } catch (e) {
     console.log('Previous data not found');
   }
@@ -166,8 +171,9 @@ async function main() {
 app.set('port', (process.env.PORT || 5000));
 
 app.get('/cool', function(request, response) {
+  storedSearches = JSON.stringify(getStoredData(2));
   response.send(`<h1>Data from: ${new Date()} :</h1>
-  ${completedSearches}`);
+  ${storedSearches}`);
 });
 
 app.listen(app.get('port'), function() {
