@@ -171,9 +171,11 @@ async function main() {
 app.set('port', (process.env.PORT || 5000));
 
 app.get('/data', function(request, response) {
-  storedSearches = 'hey';
+  if (completedSearches === undefined) {
+    completedSearches = 'No data available yet...';
+  }
   response.send(`<h1>Data from: ${new Date()} :</h1>
-  ${storedSearches}`);
+  ${completedSearches}`);
 });
 
 app.listen(app.get('port'), function() {
