@@ -171,7 +171,7 @@ async function main() {
 app.set('port', (process.env.PORT || 5000));
 
 app.get('/data', function(request, response) {
-  storedSearches = JSON.stringify(getStoredData(2));
+  storedSearches = 'hey';
   response.send(`<h1>Data from: ${new Date()} :</h1>
   ${storedSearches}`);
 });
