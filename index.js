@@ -153,7 +153,7 @@ async function main() {
       console.log('Data saved!');
 
       //Save the data to be displayed on webpage
-      completedSearches = JSON.stringify(risingSearches)[0];
+      completedSearches = JSON.stringify(risingSearches);
     });
   } else {
     console.log('No data available yet')
@@ -170,7 +170,7 @@ async function main() {
 
 app.set('port', (process.env.PORT || 5000));
 
-app.get('/data.json', function(request, response) {
+app.get('/data', function(request, response) {
   if (completedSearches === undefined) {
     completedSearches = 'No data available yet...';
   }
