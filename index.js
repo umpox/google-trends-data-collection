@@ -2,10 +2,10 @@ const googleTrends = require('./google-trends-api.min.js');
 const fs = require('fs');
 
 /* HEROKU EXPRESS IMPORTS */
-var cool = require('cool-ascii-faces');
-var express = require('express');
-var pg = require('pg');
-var app = express();
+const cool = require('cool-ascii-faces');
+const express = require('express');
+const pg = require('pg');
+const app = express();
 
 let completedSearches;
 
